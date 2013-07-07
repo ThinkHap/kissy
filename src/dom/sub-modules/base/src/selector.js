@@ -105,6 +105,7 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
 
         // attach each method
         ret.each = query_each;
+        console.log(ret);
 
         return ret;
     }

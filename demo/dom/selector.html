@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="gbk" />
+        <title>demo</title>
+        <style type="text/css">
+            body, form, h1, h2, h3, h4, p, img, ul, li, ol, dl, dt, dd, a, span, input, tr, th, td{margin:0;padding:0;}
+		    body {font:normal 12px/1.5 "Arial","宋体","Simsun","Tahoma",sans-serif;}
+		    li {list-style:none;}
+		    img {border:0 none;vertical-align:top;}
+		    table {border-collapse:collapse;border-spacing:0;}
+            .clear-fix:after {display:block;visibility:hidden;font-size:0;line-height:0;clear:both;content:"";}  
+            .clear-fix {zoom:1;}
+		    a {color:#000;text-decoration:none;}
+		    a:hover {color:#f44;text-decoration:underline;}
+            
+        </style>
+        <!--
+        <script src="https://s.tbcdn.cn/s/kissy/1.3.0/kissy-min.js"></script>
+        -->
+        <script src="https://s.tbcdn.cn/s/kissy/1.3.0/seed-min.js"></script>
+        <script src="../../src/dom/sub-modules/base/src/data.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/attr.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/api.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/class.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/create.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/insertion.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/offset.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/selector.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/style.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/traversal.js" charset="utf-8"></script>
+        <script src="../../src/dom/sub-modules/base/src/base.js" charset="utf-8"></script>
+    </head>
+    <body>
+         <div id="test" class="test"> test1</div>
+         <ul class="clear-fix">
+             <li class="test-li">1</li>
+             <li class="test-li">2</li>
+             <li class="test-li">3</li>
+             <li class="test-li">4</li>
+             <li class="test-li">5</li>
+             <li class="test-li">6</li>
+         </ul>
+         <script>
+             var S = KISSY, D = S.DOM;
+
+             var test = document.querySelector('#test');
+             var test2 = document.getElementById('test');
+             var list = document.querySelector('.test-li');
+             var lists = document.querySelectorAll('.test-li');
+             var list2 = document.querySelectorAll('.test-li:nth-child(2)');
+             var list2selection = document.querySelectorAll('.test-li::selection');
+             console.log('test', test);
+             console.log('test2', test2);
+             console.log('list', list);
+             console.log('lists', lists);
+             console.log('list2', list2);
+             console.log('list2selection', list2selection);
+             //console.log('lists.item', lists.item);
+             lists.item('a')
+
+             console.log('');
+             console.log('kissy method is below:');
+             console.log('');
+
+             S.use('dom/base/selector', function(S, D){
+                
+
+             var ktest = D.get('#test');
+             var klist = D.get('.test-li');
+             var klists = D.query('.test-li');
+             var klist2 = D.query('.test-li:nth-child(2)');
+             var klist2selection = D.query('.test-li::selection');
+             console.log('ktest', ktest);
+             console.log('klist', klist);
+             console.log('klists', klists);
+             console.log('klist2', klist2);
+             console.log('klist2selection', klist2selection);
+             //console.log('klists.item', klists.item);
+             //klists.each(function(el){
+             //   console.log(el);
+             //})
+
+             });
+
+         </script>
+    </body>
+</html>
