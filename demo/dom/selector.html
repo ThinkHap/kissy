@@ -32,7 +32,13 @@
         <script src="../../src/dom/sub-modules/base/src/base.js" charset="utf-8"></script>
     </head>
     <body>
-         <div id="test" class="test"> test1</div>
+        <div id="test" class="test">
+            test1
+            <ul class="clear-fix">
+                <li class="test-li">1</li>
+                <li class="li">1</li>
+            </ul>
+        </div>
          <ul class="clear-fix">
              <li class="test-li">1</li>
              <li class="test-li">2</li>
@@ -50,12 +56,14 @@
              var lists = document.querySelectorAll('.test-li');
              var list2 = document.querySelectorAll('.test-li:nth-child(2)');
              var list2selection = document.querySelectorAll('.test-li::selection');
+             var tlist = test.querySelectorAll(lists[0]);
              console.log('test', test);
              console.log('test2', test2);
              console.log('list', list);
              console.log('lists', lists);
              console.log('list2', list2);
              console.log('list2selection', list2selection);
+             console.log('tlist', tlist);
              //console.log('lists.item', lists.item);
              lists.item('a')
 
@@ -68,14 +76,20 @@
 
              var ktest = D.get('#test');
              var klist = D.get('.test-li');
-             var klists = D.query('.test-li');
+             var klists = D.query('.test-li', '#test');
+             //var klistss = S.all('.test-li');
              var klist2 = D.query('.test-li:nth-child(2)');
              var klist2selection = D.query('.test-li::selection');
              console.log('ktest', ktest);
              console.log('klist', klist);
              console.log('klists', klists);
+             //console.log('klistss', klistss);
              console.log('klist2', klist2);
              console.log('klist2selection', klist2selection);
+             console.log(klists[0]['nodeType']);
+             console.log(klists[0]['setTimeout']);
+             //console.log(klistss[0]['getDOMNodes']);
+             console.log(D.query(['1',2,3]));
              //console.log('klists.item', klists.item);
              //klists.each(function(el){
              //   console.log(el);

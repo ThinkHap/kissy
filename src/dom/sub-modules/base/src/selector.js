@@ -20,6 +20,8 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
         COMMA = ',',
         trim = S.trim,
         RE_ID = /^#[\w-]+$/,
+        RE_CLASS = /^\.([\w-]+)$/,
+        RE_TAG = /^[\w-]+$/,
         RE_QUERY = /^(?:#([\w-]+))?\s*([\w-]+|\*)?\.?([\w-]+)?$/;
 
     function query_each(f) {
@@ -105,7 +107,6 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
 
         // attach each method
         ret.each = query_each;
-        console.log(ret);
 
         return ret;
     }
@@ -128,23 +129,25 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
         }
         else {
             // 复杂了，交给 sizzle
-            ret = queryBySizzle(selector, context);
+            //ret = queryBySizzle(selector, context);
+            // 试一下，交给qsa 
+            ret = makeArray(DOM._querySelectorAll(selector, context));
         }
         return ret;
     }
 
     // 交给 sizzle 模块处理
-    function queryBySizzle(selector, context) {
-        var ret = [],
-            sizzle = require('sizzle');
-        if (sizzle) {
-            sizzle(selector, context, ret);
-        } else {
-            // 原生不支持
-            error(selector);
-        }
-        return ret;
-    }
+    //function queryBySizzle(selector, context) {
+    //    var ret = [],
+    //        sizzle = require('sizzle');
+    //    if (sizzle) {
+    //        sizzle(selector, context, ret);
+    //    } else {
+    //        // 原生不支持
+    //        error(selector);
+    //    }
+    //    return ret;
+    //}
 
     // 处理 selector 的每个部分
     function queryBySelectors(selector, context) {
@@ -193,6 +196,11 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
                     // #id tag | tag
                     else if (tag) { // 排除空白字符串
                         ret = makeArray(DOM._getElementsByTagName(tag, context));
+                    }
+                    // 剩余选择器交给querySelectorAll
+                    else {
+                        ret = makeArray(DOM._querySelectorAll(selector, context));
+                        console.log(ret);
                     }
                 }
 
@@ -295,6 +303,9 @@ KISSY.add('dom/base/selector', function (S, DOM, undefined) {
                 return  makeArray(context.querySelectorAll((tag || '') + '.' + cls));
             },
 
+            _querySelectorAll: function (selector, context) {
+                return  context.querySelectorAll(selector);
+            },
             // 貌似除了 ie 都有了...
             _compareNodeOrder: function (a, b) {
                 if (!a.compareDocumentPosition || !b.compareDocumentPosition) {
