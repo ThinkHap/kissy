@@ -276,7 +276,7 @@ KISSY.add('dom/base/offset', function (S, DOM, undefined) {
 
         DOM[method] = function (elem, v) {
             if (isNumber(elem)) {
-                return arguments.callee(win, elem);
+                return DOM[method](win, elem);
             }
             elem = DOM.get(elem);
             var ret,
@@ -296,15 +296,16 @@ KISSY.add('dom/base/offset', function (S, DOM, undefined) {
                     //chrome == body.scrollTop
                     //firefox/ie9 == documentElement.scrollTop
                     ret = w[ 'page' + (i ? 'Y' : 'X') + 'Offset'];
-                    if (!isNumber(ret)) {
-                        d = w[DOCUMENT];
-                        //ie6,7,8 standard mode
-                        ret = d[DOC_ELEMENT][method];
-                        if (!isNumber(ret)) {
-                            //quirks mode
-                            ret = d[BODY][method];
-                        }
-                    }
+                    //删除兼容IE的代码 by hap
+                    //if (!isNumber(ret)) {
+                    //    d = w[DOCUMENT];
+                    //    //ie6,7,8 standard mode
+                    //    ret = d[DOC_ELEMENT][method];
+                    //    if (!isNumber(ret)) {
+                    //        //quirks mode
+                    //        ret = d[BODY][method];
+                    //    }
+                    //}
                 }
             } else if (elem.nodeType == NodeType.ELEMENT_NODE) {
                 if (v !== undefined) {
@@ -323,13 +324,15 @@ KISSY.add('dom/base/offset', function (S, DOM, undefined) {
             refWin = DOM.get(refWin);
             var w = getWin(refWin),
                 d = w[DOCUMENT];
-            return MAX(
-                //firefox chrome documentElement.scrollHeight< body.scrollHeight
-                //ie standard mode : documentElement.scrollHeight> body.scrollHeight
-                d[DOC_ELEMENT][SCROLL + name],
-                //quirks : documentElement.scrollHeight 最大等于可视窗口多一点？
-                d[BODY][SCROLL + name],
-                DOM[VIEWPORT + name](d));
+            return d[BODY][SCROLL + name];
+            //删除兼容IE的代码
+            //return MAX(
+            //    //firefox chrome documentElement.scrollHeight< body.scrollHeight
+            //    //ie standard mode : documentElement.scrollHeight> body.scrollHeight
+            //    d[DOC_ELEMENT][SCROLL + name],
+            //    //quirks : documentElement.scrollHeight 最大等于可视窗口多一点？
+            //    d[BODY][SCROLL + name],
+            //    DOM[VIEWPORT + name](d));
         };
 
         DOM[VIEWPORT + name] = function (refWin) {
@@ -340,11 +343,13 @@ KISSY.add('dom/base/offset', function (S, DOM, undefined) {
                 body = doc[BODY],
                 documentElement = doc[DOC_ELEMENT],
                 documentElementProp = documentElement[prop];
+            // by hap
+            return documentElementProp;
             // 标准模式取 documentElement
             // backcompat 取 body
-            return doc[compatMode] === CSS1Compat
-                && documentElementProp ||
-                body && body[ prop ] || documentElementProp;
+            //return doc[compatMode] === CSS1Compat
+            //    && documentElementProp ||
+            //    body && body[ prop ] || documentElementProp;
         }
     });
 
@@ -390,8 +395,8 @@ KISSY.add('dom/base/offset', function (S, DOM, undefined) {
         // ie7 html 即窗口边框改变不了。永远为 2
         // 但标准 firefox/chrome/ie9 下 docElem.clientTop 是窗口边框，即使设了 border-top 也为 0
 
-        x -= docElem.clientLeft || body.clientLeft || 0;
-        y -= docElem.clientTop || body.clientTop || 0;
+        //x -= docElem.clientLeft || body.clientLeft || 0;
+        //y -= docElem.clientTop || body.clientTop || 0;
 
         return { left: x, top: y };
     }
